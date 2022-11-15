@@ -10,5 +10,6 @@ type ZipUsecase interface {
 
 type ZipRepository interface {
 	Prepare(ctx context.Context) (err error)
+	ValidateSrc(ctx context.Context) (err error)
 	CreateZip(ctx context.Context, name string) (path string, err error)
 }

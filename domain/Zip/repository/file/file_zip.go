@@ -3,7 +3,9 @@ package mysql
 import (
 	"archive/zip"
 	"context"
+	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -27,6 +29,19 @@ func (r *fileZipRepository) Prepare(ctx context.Context) (err error) {
 
 	err = os.Mkdir(r.ZipPath, 0750)
 	return err
+}
+
+func (r *fileZipRepository) ValidateSrc(ctx context.Context) (err error) {
+	files, err := ioutil.ReadDir(r.SrcPath)
+	if err != nil {
+		return err
+	}
+
+	if len(files) == 0 {
+		return errors.New(`source buffer is empty`)
+	}
+
+	return nil
 }
 
 func (r *fileZipRepository) CreateZip(ctx context.Context, name string) (result string, err error) {

@@ -28,6 +28,11 @@ func (r *zipUsecase) Get(c context.Context) (name, path string, err error) {
 		return
 	}
 
+	err = r.repo.ValidateSrc(ctx)
+	if err != nil {
+		return
+	}
+
 	name = time.Now().Format("2006-01-02 150405") + ".zip"
 
 	path, err = r.repo.CreateZip(ctx, name)
