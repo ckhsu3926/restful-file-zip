@@ -21,7 +21,9 @@ Using Technical:
 
 - Golang 1.16+
 
-\*Make Sure you have set **GOROOT**/bin, **GOPATH**/bin into your env **PATH\***
+Make Sure you have set **GOROOT**/bin, **GOPATH**/bin into your env **PATH**
+
+Make Sure you have set **config.yaml** and **create path directory**
 
 ## Install
 

@@ -8,7 +8,7 @@ import (
 )
 
 type GinResponse struct {
-	Result int `json:"result" example:"1"`
+	Result int `json:"result" example:"1" extensions:"x-order=1"`
 }
 type ErrorResponse struct {
 	GinResponse

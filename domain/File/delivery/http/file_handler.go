@@ -19,7 +19,7 @@ func NewFileHttpHandler(r *gin.RouterGroup, u entities.FileUsecase) {
 	}
 
 	fileRouter := r.Group("file")
-	fileRouter.POST("/save", handler.PostSave)
+	fileRouter.POST("/", handler.SaveFile)
 	fileRouter.DELETE("/", handler.Delete)
 	fileRouter.DELETE("/clear", handler.DeleteClear)
 	fileRouter.GET("/list", handler.GetFileList)
@@ -34,12 +34,15 @@ type fileResponse struct {
 }
 
 // File godoc
-// @Summary      PostSave
+// @Summary      SaveFile
 // @Description  Save Post File
+// @Description
+// @Description  **required** Content-Type: multipart/form-data
 // @Tags         File
-// @Success      200  {object}  response
-// @Router       /api/file/save [post]
-func (h *fileHttpHandler) PostSave(c *gin.Context) {
+// @param        file  formData  file  true  "reource files"
+// @Success      200   {object}  response
+// @Router       /api/file/ [post]
+func (h *fileHttpHandler) SaveFile(c *gin.Context) {
 	response := response{}
 
 	file, getFileErr := c.FormFile("file")
