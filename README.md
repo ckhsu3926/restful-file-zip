@@ -58,6 +58,14 @@ $ make before-run
 
 ## Run Application
 
+Run local
+
 ```bash
 $ make run
+```
+
+Cross Compile for Windows
+
+```bash
+$ GOOS=windows GOARCH=amd64 go build -o restful-file-zip.exe ./app
 ```
