@@ -5,11 +5,10 @@ import (
 )
 
 type ZipUsecase interface {
-	Create(ctx context.Context) (path string, err error)
-	Clear(ctx context.Context) (err error)
+	Get(ctx context.Context) (name, path string, err error)
 }
 
 type ZipRepository interface {
-	Create(ctx context.Context) (path string, err error)
-	Clear(ctx context.Context) (err error)
+	Prepare(ctx context.Context) (err error)
+	CreateZip(ctx context.Context, name string) (path string, err error)
 }

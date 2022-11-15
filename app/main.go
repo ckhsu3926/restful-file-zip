@@ -30,6 +30,13 @@ func init() {
 	if err := config.InitialEnvConfiguration(); err != nil {
 		panic(err)
 	}
+
+	if config.EnvConfig.SourcePath[len(config.EnvConfig.SourcePath)-1] == '/' {
+		config.EnvConfig.SourcePath = config.EnvConfig.SourcePath[0 : len(config.EnvConfig.SourcePath)-1]
+	}
+	if config.EnvConfig.ZipPath[len(config.EnvConfig.ZipPath)-1] == '/' {
+		config.EnvConfig.ZipPath = config.EnvConfig.ZipPath[0 : len(config.EnvConfig.ZipPath)-1]
+	}
 }
 
 // @Title  restful-file-zip
@@ -55,7 +62,7 @@ func main() {
 	fileUsecase := _fileUsecase.NewFileUsecase(fileRepo, timeContext)
 	_fileDeliveryHttp.NewFileHttpHandler(apiRouter, fileUsecase)
 
-	zipRepo := _zipRepository.NewFileZipRepository(config.EnvConfig.SourcePath, config.EnvConfig.ZipPath)
+	zipRepo := _zipRepository.NewFileZipRepository(config.EnvConfig.SourcePath+"/", config.EnvConfig.ZipPath)
 	zipUsecase := _zipUsecase.NewZipUsecase(zipRepo, timeContext)
 	_zipDeliveryHttp.NewZipHttpHandler(apiRouter, zipUsecase)
 

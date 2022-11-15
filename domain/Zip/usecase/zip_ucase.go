@@ -19,20 +19,17 @@ func NewZipUsecase(r entities.ZipRepository, timeout time.Duration) entities.Zip
 	}
 }
 
-func (r *zipUsecase) Create(c context.Context) (path string, err error) {
+func (r *zipUsecase) Get(c context.Context) (name, path string, err error) {
 	ctx, cancel := context.WithTimeout(c, r.contextTimeout)
 	defer cancel()
 
-	path, err = r.repo.Create(ctx)
+	err = r.repo.Prepare(ctx)
+	if err != nil {
+		return
+	}
 
-	return
-}
+	name = time.Now().Format("2006-01-02 150405") + ".zip"
 
-func (r *zipUsecase) Clear(c context.Context) (err error) {
-	ctx, cancel := context.WithTimeout(c, r.contextTimeout)
-	defer cancel()
-
-	err = r.repo.Clear(ctx)
-
+	path, err = r.repo.CreateZip(ctx, name)
 	return
 }

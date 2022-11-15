@@ -1,7 +1,8 @@
 package http
 
 import (
-	"net/http"
+	"io"
+	"os"
 
 	"github.com/gin-gonic/gin"
 
@@ -19,7 +20,7 @@ func NewZipHttpHandler(r *gin.RouterGroup, u entities.ZipUsecase) {
 	}
 
 	zipRouter := r.Group("zip")
-	zipRouter.GET("/file", handler.GetZipFile)
+	zipRouter.GET("/", handler.GetZipFile)
 }
 
 type zipResponse struct {
@@ -31,26 +32,31 @@ type zipResponse struct {
 // @Description  Serving zip file
 // @Tags         Zip
 // @Success      200  {object}  zipResponse
-// @Router       /api/zip/file [get]
+// @Router       /api/zip/ [get]
 func (h *zipHttpHandler) GetZipFile(c *gin.Context) {
 	response := zipResponse{}
 
-	clearErr := h.Usecase.Clear(c.Request.Context())
-	if clearErr != nil {
-		response.ErrorResponse(c, clearErr)
+	fileName, filePath, getErr := h.Usecase.Get(c.Request.Context())
+	if getErr != nil {
+		response.ErrorResponse(c, getErr)
 		return
 	}
 
-	filePath, createErr := h.Usecase.Create(c.Request.Context())
-	if createErr != nil {
-		response.ErrorResponse(c, createErr)
+	file, dataErr := os.Open(filePath)
+	if dataErr != nil {
+		response.ErrorResponse(c, dataErr)
 		return
 	}
+	defer file.Close()
 
-	// todo
-	var fs http.FileSystem
+	c.Writer.Header().Add("Content-Type", "application/octet-stream")
+	c.Writer.Header().Add("Content-Disposition", "attachment; filename="+fileName)
+	_, copyErr := io.Copy(c.Writer, file)
+	if copyErr != nil {
+		response.ErrorResponse(c, copyErr)
+		return
+	}
 
 	response.Result = 1
-	c.FileFromFS(filePath, fs)
 	c.AbortWithStatusJSON(200, response)
 }
