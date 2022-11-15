@@ -1,0 +1,12 @@
+ENV: local
+Name: restful-file-zip
+Host: localhost
+Port: 8081
+SourcePath: tmp/source
+ZipPath: tmp/zip
+Cors:
+  AllowAllOrigins: false
+  AllowOrigins: [http://localhost:8080]
+  AllowMethods: [GET, POST, PUT, DELETE]
+  AllowHeaders: [content-type]
+  AllowCredentials: false
