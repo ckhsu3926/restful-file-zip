@@ -3,10 +3,12 @@ Name: restful-file-zip
 Host: localhost
 Port: 8081
 SourcePath: tmp/source
-ZipPath: tmp/zip
+UndoFolderName: undo
+ArchivePath: tmp/archive
 Cors:
   AllowAllOrigins: false
   AllowOrigins: [http://localhost:8080]
   AllowMethods: [GET, POST, PUT, DELETE]
   AllowHeaders: [content-type]
+  ExposeHeaders: []
   AllowCredentials: false

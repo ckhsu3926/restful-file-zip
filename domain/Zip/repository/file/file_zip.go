@@ -13,21 +13,21 @@ import (
 )
 
 type fileZipRepository struct {
-	SrcPath string
-	ZipPath string
+	SrcPath     string
+	ArchivePath string
 }
 
-func NewFileZipRepository(SrcPath, ZipPath string) entities.ZipRepository {
-	return &fileZipRepository{SrcPath, ZipPath}
+func NewFileZipRepository(SrcPath, ArchivePath string) entities.ZipRepository {
+	return &fileZipRepository{SrcPath, ArchivePath}
 }
 
 func (r *fileZipRepository) Prepare(ctx context.Context) (err error) {
-	err = os.RemoveAll(r.ZipPath)
+	err = os.RemoveAll(r.ArchivePath)
 	if err != nil {
 		return
 	}
 
-	err = os.Mkdir(r.ZipPath, 0750)
+	err = os.Mkdir(r.ArchivePath, 0750)
 	return err
 }
 
@@ -45,7 +45,7 @@ func (r *fileZipRepository) ValidateSrc(ctx context.Context) (err error) {
 }
 
 func (r *fileZipRepository) CreateZip(ctx context.Context, name string) (result string, err error) {
-	result = r.ZipPath + "/" + name
+	result = r.ArchivePath + "/" + name
 
 	f, err := os.Create(result)
 	if err != nil {

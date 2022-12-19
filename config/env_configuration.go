@@ -15,16 +15,18 @@ type cors struct {
 	AllowOrigins     []string `env:"AllowOrigins" validate:"required"`
 	AllowMethods     []string `env:"AllowMethods" validate:"required"`
 	AllowHeaders     []string `env:"AllowHeaders" validate:"required"`
+	ExposeHeaders    []string `env:"ExposeHeaders" validate:"required"`
 	AllowCredentials bool     `env:"AllowCredentials"`
 }
 type envConfiguration struct {
-	Env        string `env:"env" validate:"required"`
-	Name       string `env:"name" validate:"required"`
-	Host       string `env:"host" validate:"required"`
-	Port       string `env:"port" validate:"required"`
-	SourcePath string `env:"sourcePath" validate:"required"`
-	ZipPath    string `env:"zipPath" validate:"required"`
-	Cors       cors   `env:"cors" validate:"required"`
+	Env            string `env:"env" validate:"required"`
+	Name           string `env:"name" validate:"required"`
+	Host           string `env:"host" validate:"required"`
+	Port           string `env:"port" validate:"required"`
+	SourcePath     string `env:"sourcePath" validate:"required"`
+	ArchivePath    string `env:"ArchivePath" validate:"required"`
+	UndoFolderName string `env:"UndoFolderName" validate:"required"`
+	Cors           cors   `env:"cors" validate:"required"`
 }
 
 var EnvConfig envConfiguration

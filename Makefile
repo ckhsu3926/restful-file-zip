@@ -102,3 +102,6 @@ before-run:
 
 run:
 	cd "$(PROJECT_ROOT_DIR)" && go run ./app
+	
+build-windows:
+	cd "$(PROJECT_ROOT_DIR)" && GOOS=windows GOARCH=amd64 go build -o bin/main.exe ./app

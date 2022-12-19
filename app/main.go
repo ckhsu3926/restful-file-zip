@@ -34,8 +34,8 @@ func init() {
 	if config.EnvConfig.SourcePath[len(config.EnvConfig.SourcePath)-1] == '/' {
 		config.EnvConfig.SourcePath = config.EnvConfig.SourcePath[0 : len(config.EnvConfig.SourcePath)-1]
 	}
-	if config.EnvConfig.ZipPath[len(config.EnvConfig.ZipPath)-1] == '/' {
-		config.EnvConfig.ZipPath = config.EnvConfig.ZipPath[0 : len(config.EnvConfig.ZipPath)-1]
+	if config.EnvConfig.ArchivePath[len(config.EnvConfig.ArchivePath)-1] == '/' {
+		config.EnvConfig.ArchivePath = config.EnvConfig.ArchivePath[0 : len(config.EnvConfig.ArchivePath)-1]
 	}
 }
 
@@ -62,7 +62,7 @@ func main() {
 	fileUsecase := _fileUsecase.NewFileUsecase(fileRepo, timeContext)
 	_fileDeliveryHttp.NewFileHttpHandler(apiRouter, fileUsecase)
 
-	zipRepo := _zipRepository.NewFileZipRepository(config.EnvConfig.SourcePath+"/", config.EnvConfig.ZipPath)
+	zipRepo := _zipRepository.NewFileZipRepository(config.EnvConfig.SourcePath+"/", config.EnvConfig.ArchivePath)
 	zipUsecase := _zipUsecase.NewZipUsecase(zipRepo, timeContext)
 	_zipDeliveryHttp.NewZipHttpHandler(apiRouter, zipUsecase)
 
